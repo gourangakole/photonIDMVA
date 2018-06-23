@@ -28,9 +28,10 @@ void plotMVARes(){
 
   string fileNames[10];
 
-  fileNames[0] = "/eos/user/k/kmondal/public/FLASHgg/PhotonIDMVA/RunIIFall17/MCv2_February2018/February03/Mass95/mvares_Hgg_phoId_94X_EB_woIsocorr.root";
-  fileNames[1] = "/eos/user/k/kmondal/public/FLASHgg/PhotonIDMVA/RunIIFall17/MCv2_February2018/February03/Mass95/mvares_Hgg_phoId_92X_EB_woIsocorr.root";
-  fileNames[2] = "/eos/user/k/kmondal/public/FLASHgg/PhotonIDMVA/RunIIFall17/MCv2_February2018/February03/Mass95/mvares_Hgg_phoId_80X_EB_Moriond17.root";
+  //fileNames[0] = "/eos/user/k/kmondal/public/FLASHgg/PhotonIDMVA/RunIIFall17/MCv2_February2018/February03/Mass95/mvares_Hgg_phoId_94X_EB_woIsocorr.root";
+  fileNames[0] = "mvares_Hgg_phoId_94X_EB_Isocorr.root";
+  //  fileNames[1] = "/eos/user/k/kmondal/public/FLASHgg/PhotonIDMVA/RunIIFall17/MCv2_February2018/February03/Mass95/mvares_Hgg_phoId_92X_EB_woIsocorr.root";
+  //  fileNames[2] = "/eos/user/k/kmondal/public/FLASHgg/PhotonIDMVA/RunIIFall17/MCv2_February2018/February03/Mass95/mvares_Hgg_phoId_80X_EB_Moriond17.root";
 
   TCanvas * can = new TCanvas("can_mvares","can_mvares",600,600);
   string label_mvares = "mva output";
@@ -68,7 +69,7 @@ void plotMVARes(){
   labelLeg_RoC[2] = "8_0_X";
 
 
-  for(int i = 0; i < 3; i++){
+  for(int i = 0; i < 1; i++){
 
     cout << "file # " << i << endl;
 
@@ -98,7 +99,7 @@ void plotMVARes(){
     float cutsVal[320];
     float mvaResCutVal = -1.00625;
 
-    int nCuts = 320;
+    int nCuts = 320; // 0.00625*320 = 2 (so it is covered -1 to +1)
 
     int mvaSMaxBin = histo_s->GetXaxis()->FindBin(1);
     int mvaBMaxBin = histo_b->GetXaxis()->FindBin(1);
@@ -116,9 +117,10 @@ void plotMVARes(){
       sigEff[k] = Nsig[k]/Nsig[0];
       bkgEff[k] = Nbkg[k]/Nbkg[0];
 
+      // be keep in mind that the way efficiency is canculated
+      // when mva value increases the efficiency decreases (because it is always devided by the integral)
       // if(sigEff[k] > 0.98) cout << " sigEff[k] = " << sigEff[k] <<  " bkgEff[k] = " << bkgEff[k] << " with a cut at " << mvaResCutVal << endl;
       if(sigEff[k] > 0.895 && sigEff[k] < 0.905) cout << " sigEff[k] = " << sigEff[k] <<  " bkgEff[k] = " << bkgEff[k] << " with a cut at " << mvaResCutVal << endl;
-
 
     }
 
@@ -147,17 +149,17 @@ void plotMVARes(){
     if(i == 0) {
       histo_s->SetLineColor(kRed);
       histo_s->SetMarkerColor(kRed);
-      histo_b->SetLineColor(kRed);
-      histo_b->SetMarkerColor(kRed);
-
+      histo_b->SetLineColor(kBlue);
+      histo_b->SetMarkerColor(kBlue);
+      
     }
-    if(i == 2){
+    else if(i == 2){
       histo_s->SetLineColor(kBlue);
       histo_s->SetMarkerColor(kBlue);
       histo_b->SetLineColor(kBlue);
       histo_b->SetMarkerColor(kBlue);
     }
-    if(i == 1){
+    else if(i == 1){
       histo_s->SetLineColor(kGreen+2);
       histo_s->SetMarkerColor(kGreen+2);
       histo_b->SetLineColor(kGreen+2);
@@ -168,6 +170,7 @@ void plotMVARes(){
       histo_s->SetMarkerColor(i+2);
       histo_b->SetLineColor(i+2);
       histo_b->SetMarkerColor(i+2);
+    
     }
 
     legend->AddEntry(histo_s,labelLeg_s[i].c_str(),"lem");
@@ -198,8 +201,8 @@ void plotMVARes(){
       sigEff_vs_bkgEff->GetXaxis()->SetLabelSize(0.02);
 
       
-      sigEff_vs_bkgEff->GetXaxis()->SetRangeUser(0.8,1.);
-      sigEff_vs_bkgEff->GetYaxis()->SetRangeUser(0.,0.4);
+      sigEff_vs_bkgEff->GetXaxis()->SetRangeUser(0.0,1.);
+      sigEff_vs_bkgEff->GetYaxis()->SetRangeUser(0.,1.0);
       
 
       sigEff_vs_bkgEff->GetXaxis()->SetTitle("signal eff");
@@ -207,7 +210,7 @@ void plotMVARes(){
 
     }
 
-
+    
     sigEff_vs_bkgEff->SetLineWidth(2);
 
     if(i == 0) {

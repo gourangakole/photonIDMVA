@@ -24,7 +24,7 @@
 #include <algorithm>
 
 void plotAnyVariable(TCanvas * can, TCut baseCut, TCut twoDwCut, string varName, TLegend * legend, string label, int nbins, float min, float max, double maxHisto){
-  TFile *File = TFile::Open("/eos/user/k/kmondal/public/FLASHgg/PhotonIDMVA/RunIIFall17/MCv2_February2018/February03/Mass95/output_SinglePhoton_Train.root");
+  TFile *File = TFile::Open("output_SinglePhoton_Train.root"); // input file for training is used to check whether weighting is done or NOT
 
   TTree *t_FakePhotons = (TTree*)File->Get("fakePhotons");
   TTree *t_PromtPhotons = (TTree*)File->Get("promptPhotons");
@@ -126,8 +126,8 @@ void check2Dweights(){
   bool plot_SCEta = true;
   bool plot_SCERaw = false;
 
-  bool doEB = false;
-  bool doEE = true;
+  bool doEB = true;
+  bool doEE = false;
 
   string tmp = "_94X_allPho_valid";
   if(doEE) tmp = "_94X_EEPho_Hgg";

@@ -26,10 +26,10 @@
 
 void add2Dweights(){
 
-  string FileName = "/eos/user/k/kmondal/public/FLASHgg/PhotonIDMVA/RunIIFall17/MCv2_February2018/February03/Mass95/output_GJets_2017v2_mass95.root";
-  string FileNameW = "/eos/user/k/kmondal/public/FLASHgg/PhotonIDMVA/RunIIFall17/MCv2_February2018/February03/Mass95/output_SinglePhoton_Train.root";
+  string FileName = "/afs/cern.ch/user/g/gkole/work/public/HGG_2017_data/June9_2018/CMSSW_9_4_6/src/flashgg/Taggers/test/GJets_Pt-20to40.root"; // input GJet file 
+  string FileNameW = "output_SinglePhoton_Train.root"; // outPut file will be used for training
 
-  TFile fileIn("Weights_PtVSeta_Hgg_Gjets_all.root");
+  TFile fileIn("Weights_PtVSeta_Hgg_Gjets_all.root"); // 2D weight file for signal & background
 
   TH2F *hWeightEB = (TH2F*)fileIn.Get("hWeight_bar");
   TH2F *hWeightEE = (TH2F*)fileIn.Get("hWeight_end");
